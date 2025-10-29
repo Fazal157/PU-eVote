@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Form - {{ product.name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f7f7;
+            padding: 30px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            margin: auto;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        input, select {
+            width: 100%;
+            margin: 8px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        
+    /* Shipping Method */
+    .shipping-box {
+        border: 1px solid #c5c5c5;
+        border-radius: 6px;
+        padding: 10px 15px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #f9f9ff;
+    }
+
+    .shipping-note {
+        margin-top: 15px;
+        border: 1px solid #c5c5c5;
+        border-radius: 6px;
+        background-color: #fff;
+        padding: 12px;
+        color: red;
+        font-size: 14px;
+    }
+
+    /* Payment Section */
+    .payment-section {
+        margin-top: 25px;
+    }
+
+    .payment-option {
+        border: 1px solid #c5c5c5;
+        border-radius: 6px;
+        background: #fff;
+        margin-bottom: 10px;
+        padding: 10px 15px;
+    }
+
+    .payment-option input {
+        margin-right: 8px;
+    }
+
+    .payment-option.selected {
+        border: 2px solid #0070f3;
+        background-color: #f1f6ff;
+    }
+
+    .payment-details {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .payment-details img {
+        width: 60px;
+        opacity: 0.6;
+    }
+
+    .payment-description {
+        font-size: 13px;
+        color: #444;
+        text-align: center;
+        padding: 0 20px;
+    }
+
+    /* Billing Address */
+    .billing-address {
+        margin-top: 25px;
+    }
+
+    .billing-option {
+        border: 1px solid #c5c5c5;
+        border-radius: 6px;
+        padding: 10px 15px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #f9f9ff;
+    }
+
+    /* Button */
+    .pay-button {
+        width: 100%;
+        background-color: #0070f3;
+        color: #fff;
+        font-size: 16px;
+        padding: 12px 0;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-top: 25px;
+    }
+
+    .pay-button:hover {
+        background-color: #0059c9;
+    }
+
+    small {
+        font-size: 12px;
+        color: #666;
+    }
+
+    button:hover { background-color: darkred; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Order: {{ product.name }}</h2>
+    <img src="{{ product.image }}" alt="{{ product.name }}" width="100%">
+    <p><strong>Price:</strong> PKR {{ product.price }}</p>
+
+   <form method="post" action="/submit_order/">
+    {% csrf_token %}
+    <input type="hidden" name="product_name" value="{{ product.name }}">
+    <input type="hidden" name="product_price" value="{{ product.price }}">
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>First Name</label>
+    <input type="text" name="first_name" required>
+
+    <label>Last Name</label>
+    <input type="text" name="last_name" required>
+
+    <label>Address</label>
+    <input type="text" name="address" required>
+
+    <label>City</label>
+    <input type="text" name="city" required>
+
+    <label>Postal Code</label>
+    <input type="text" name="postal_code">
+
+    <label>Phone</label>
+    <input type="tel" name="phone" required>
+
+   
+
+
+
+
+
+
+    {% if order_submitted %}
+<!-- 🟢 Order Submitted Successfully Module -->
+<div style="
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    animation: fadeIn 0.5s ease-in-out;
+">
+    <h2 style="color:#28a745; margin-bottom:10px;">✅ Order Submitted Successfully!</h2>
+    <p style="color:#555;">Thank you for your order. Below are your submitted details:</p>
+
+    <div style="
+        text-align: left;
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+        border: 1px solid #ddd;
+    ">
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>First Name:</strong> {{ first_name }}</p>
+        <p><strong>Last Name:</strong> {{ last_name }}</p>
+        <p><strong>Address:</strong> {{ address }}</p>
+        <p><strong>City:</strong> {{ city }}</p>
+        <p><strong>Postal Code:</strong> {{ postal_code }}</p>
+        <p><strong>Phone:</strong> {{ phone }}</p>
+    </div>
+</div>
+{% endif %}
+
+
+    <h3>Shipping method</h3>
+    <div class="shipping-box">
+        <div>
+            <div><strong>Shipping Charges</strong></div>
+            <small>POS Fees 1 PKR Included</small>
+        </div>
+        <div><strong>Rs 101.00</strong></div>
+    </div>
+
+    <div class="shipping-note">
+        Note
+        Orders valued at PKR 15,000 & above require prepaid payment. Thank you!
+    </div>
+
+    <div class="payment-section">
+        <h3>Payment</h3>
+        <small>All transactions are secure and encrypted.</small>
+
+
+
+
+        <!-- Cash on Delivery (COD) -->
+<div style="
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    border: 1px solid #c5c5c5;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    background-color: #fff;
+    cursor: pointer;
+">
+    <input type="radio" name="payment" id="cod" value="cod"
+    style="accent-color: #0070f3; width: 16px; height: 16px; margin-right: 12px;">
+    <label for="cod" style="font-size: 15px; color: #333; cursor: pointer;">
+        Cash on Delivery (COD)
+    </label>
+</div>        
+
+        <div class="payment-option selected">
+            <label>
+                <input type="radio" name="payment" value="card" checked>
+                Debit - Credit Card (10% OFF on Paid Orders)
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="Visa" width="30" style="float:right; margin-left:6px;">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard" width="30" style="float:right;">
+            </label>
+            <div class="payment-details">
+                <img src="https://cdn-icons-png.flaticon.com/512/545/545682.png" alt="browser">
+            </div>
+            <div class="payment-description">
+                After clicking “Pay now”, you will be redirected to Debit - Credit Card (10% OFF on Paid Orders) to complete your purchase securely.
+            </div>
+        </div>
+
+<!-- BaadMay | Buy Now. Pay Later -->
+<div style="
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    border: 1px solid #c5c5c5;
+    border-radius: 6px;
+    padding: 12px 15px;
+    margin-bottom: 12px;
+    background-color: #fff;
+    cursor: pointer;
+">
+    <!-- Radio -->
+    <input type="radio" name="payment" id="baadmay" value="baadmay"
+    style="accent-color: #0070f3; width: 16px; height: 16px; margin-right: 12px;">
+
+    <!-- Text -->
+    <label for="baadmay" style="font-size: 15px; color: #333; cursor: pointer;">
+        BaadMay | Buy Now. Pay Later
+    </label>
+
+    <!-- Card Icons -->
+    <div style="display: flex; align-items: center; gap: 6px;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
+    alt="Visa" style="width: 34px; height: auto;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+    alt="MasterCard" style="width: 34px; height: auto;">
+    </div>
+</div>
+
+
+
+
+<h3>Billing address</h3>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+
+    <!-- Same as shipping address (selected) -->
+    <div style="
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        border: 2px solid #0070f3;
+        border-radius: 6px;
+        padding: 12px 14px;
+        cursor: pointer;
+    ">
+        <input type="radio" name="billing" id="same" checked 
+        style="accent-color: #0070f3; width: 16px; height: 16px; margin-right: 12px;">
+        <label for="same" style="font-size: 15px; cursor: pointer;">Same as shipping address</label>
+    </div>
+
+    <!-- Use a different billing address -->
+    <div style="
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        border: 1px solid #c5c5c5;
+        border-radius: 6px;
+        padding: 12px 14px;
+        cursor: pointer;
+    ">
+        <input type="radio" name="billing" id="different" 
+        style="accent-color: #0070f3; width: 16px; height: 16px; margin-right: 12px;">
+        <label for="different" style="font-size: 15px; cursor: pointer;">Use a different billing address</label>
+    </div>
+</div>
+
+
+
+
+ <button type="submit" class="pay-button">Place Order</button></form>
+
+</div>
+</body>
+</html>
