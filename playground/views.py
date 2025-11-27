@@ -5,8 +5,8 @@ from django.hhtp import HttpResponse
 # request -> response
 # request handler
 # action
-def hello_hello(request):
-    return HttpResponse("Hello World")
+def say_hello(request):
+    return render(request, 'hello.html')
 #pull data from db
 #Transform
 #send email

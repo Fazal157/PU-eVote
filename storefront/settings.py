@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'playapp',
     'playground',
     'debug_toolbar',
-    'store',
     'tags',
 
 ]
@@ -56,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 INTERNAL_IPS = [
-    "127.0.0.1",
+   "127.0.0.1",
 ]
 
 STATIC_URL = '/static/'
@@ -72,7 +71,7 @@ ROOT_URLCONF = 'storefront.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],  # 👈 must be here
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
