@@ -182,7 +182,6 @@ body::before {
             background-color: darkred;
         }
 
-
         /* voter description style */  
 
 .footer-sections {
@@ -235,9 +234,22 @@ body::before {
         <div class="card">
         <img src="{{ p.image }}" alt="{{ p.name }}">
         <p class="name">{{ p.name }}</p>
-        <button class="btn">E-Society</button></div>
+        <button class="btn" onclick="goToLogin({{ p.id }})" >E-Society</button></div>
         {% endfor %}
     </div>
+
+
+    <!--message alert when click on another buttons-->
+<script>
+function goToLogin(id) {
+    if (id === 1) {
+        window.location.href = "/student/login/";
+    } else {
+        alert("Only Student login is available.");
+    }
+}
+</script>
+
 
 
     <!--voters description-->
@@ -269,7 +281,5 @@ body::before {
   </div>
 
 </div>
-
-
 </body>
 </html>

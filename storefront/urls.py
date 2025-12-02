@@ -8,8 +8,10 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('playapp.urls')),   # ← your app name
     path('', views.home),
     path('__debug__/', include(debug_toolbar.urls)),
+
 ]
 
 
